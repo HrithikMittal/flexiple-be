@@ -8,13 +8,18 @@ const postSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Post",
-    },
-  ],
+  // post to which this comment belongs to
+  parentId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post",
+  },
+  // comment to which this comment is a reply to
+  replyTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post",
+  },
   likes: [
     {
       type: mongoose.Schema.Types.ObjectId,
