@@ -62,8 +62,56 @@ const upvotePost = async (req, res) => {
   }
 };
 
+const downvotePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const newPost = await Post.findOneAndUpdate(
+      { _id: postId },
+      {
+        $pull: { likes: req.user.id },
+      },
+      { new: true }
+    );
+    return res.json({ success: true, data: newPost });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+const deletePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await Post.findOneAndDelete({
+      _id: postId,
+    });
+    return res.json({ success: true, data: post });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+const updatePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { content } = req.body;
+    const post = await Post.findOneAndUpdate(
+      { _id: postId },
+      {
+        content: content,
+      },
+      { new: true }
+    );
+    return res.json({ success: true, data: post });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 module.exports = {
   getAllPosts,
   createPost,
+  deletePost,
+  updatePost,
   upvotePost,
+  downvotePost,
 };
