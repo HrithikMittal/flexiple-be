@@ -46,7 +46,24 @@ const createPost = async (req, res) => {
   }
 };
 
+const upvotePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const newPost = await Post.findOneAndUpdate(
+      { _id: postId },
+      {
+        $addToSet: { likes: req.user.id },
+      },
+      { new: true }
+    );
+    return res.json({ success: true, data: newPost });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 module.exports = {
   getAllPosts,
   createPost,
+  upvotePost,
 };

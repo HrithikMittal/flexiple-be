@@ -19,8 +19,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-const User = mongoose.model("User", userSchema);
-
 //authenticate input against database
 userSchema.statics.authenticate = function (email, password, callback) {
   User.findOne({ email: email }).exec(function (err, user) {
@@ -53,4 +51,4 @@ userSchema.pre("save", function (next) {
   });
 });
 
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);
