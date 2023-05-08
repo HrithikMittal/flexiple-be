@@ -83,6 +83,7 @@ const deletePost = async (req, res) => {
     const { postId } = req.params;
     const post = await Post.findOneAndDelete({
       _id: postId,
+      user: req.user.id,
     });
     return res.json({ success: true, data: post });
   } catch (err) {

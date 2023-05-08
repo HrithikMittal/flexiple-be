@@ -70,7 +70,7 @@ const login = async (req, res) => {
               jsonwt.sign(
                 payload,
                 process.env.SECRET_KEY,
-                { expiresIn: 3600 },
+                { expiresIn: 3600 * 24 * 7 },
                 (err, token) => {
                   if (err) {
                     console.log("Error is ", err.message);
@@ -79,6 +79,7 @@ const login = async (req, res) => {
                   res.json({
                     success: true,
                     token: "Bearer " + token,
+                    user: payload,
                   });
                 }
               );
